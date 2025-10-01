@@ -60,6 +60,16 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      /* Add a subtle shadow to separate the header from content */
+      box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    }
+
+    /* Header styling when the user scrolls down */
+    header.scrolled {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    header.scrolled .nav {
+      padding: 10px 0;
     }
     .nav {
       display: flex;
@@ -69,8 +79,9 @@
       flex-wrap: wrap;
     }
     .nav .brand {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: bold;
+      color: var(--primary-dark);
     }
     .nav ul {
       list-style: none;
@@ -103,7 +114,7 @@
     }
     /* Hero section */
     .hero {
-      background-color: var(--light-bg);
+      background-image: linear-gradient(180deg, #ffffff 0%, var(--light-bg) 100%);
       padding: 80px 0;
       text-align: center;
       animation: fadeIn 1s ease-out forwards;
@@ -117,18 +128,36 @@
       color: #555;
       margin-bottom: 30px;
     }
+    /* Hero action buttons container */
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    @media (max-width: 600px) {
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+      .hero {
+        padding: 60px 0;
+      }
+    }
     .btn {
       display: inline-block;
-      background-color: var(--primary-color);
+      background-image: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
       color: #fff;
       padding: 12px 28px;
-      border-radius: 4px;
+      border-radius: 6px;
       font-size: 1rem;
       font-weight: 600;
-      transition: background-color 0.2s ease, transform 0.1s ease;
+      transition: box-shadow 0.2s ease, transform 0.1s ease;
     }
     .btn:hover {
-      background-color: var(--primary-dark);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       transform: translateY(-2px);
     }
     /* Section spacing */
@@ -291,12 +320,32 @@
       .nav ul {
         flex-direction: column;
         width: 100%;
-        gap: 10px;
+        gap: 0;
         display: none;
+        background-color: #fff;
+        border: 1px solid var(--light-border);
+        border-radius: 0 0 6px 6px;
+        padding: 10px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+      /* Style list items in mobile nav */
+      .nav ul li {
+        width: 100%;
+      }
+      .nav ul li a {
+        display: block;
+        padding: 10px 20px;
       }
       /* When nav is open, display the menu */
       .nav.open ul {
         display: flex;
+      }
+
+      /* Add subtle shadow and rounding to the header when open */
+      .nav.open {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 6px;
+        padding-bottom: 10px;
       }
       /* Arrange service cards in a single column */
       .services-list {
@@ -333,10 +382,10 @@
     <div class="container">
       <h1>Marketing Outside the Box</h1>
       <p>We design creative campaigns that deliver measurable results and help your brand stand out.</p>
-      <p>
+      <div class="hero-actions">
         <a href="#services" class="btn">Explore Services</a>
-        <a href="#approach" class="btn" style="margin-left:10px;">Our Approach</a>
-      </p>
+        <a href="#approach" class="btn">Our Approach</a>
+      </div>
     </div>
   </section>
 
@@ -534,6 +583,16 @@
           navElement.classList.toggle('open');
         });
       }
+
+      // Header scroll shadow
+      const headerElement = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+          headerElement.classList.add('scrolled');
+        } else {
+          headerElement.classList.remove('scrolled');
+        }
+      });
 
       // Quote toggle details
       const quoteButtons = document.querySelectorAll('.quote-toggle');
